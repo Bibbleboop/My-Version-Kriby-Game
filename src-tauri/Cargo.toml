@@ -1,5 +1,5 @@
 [package]
-name = "kriby"
+name = "my-version-of-kriby"
 version = "0.1.0"
 description = "A Tauri App"
 authors = ["you"]

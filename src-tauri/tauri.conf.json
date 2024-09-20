@@ -1,4 +1,5 @@
 {
+  "$schema": "https://schema.tauri.app/config/1",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
@@ -6,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "kriby",
+    "productName": "my-version-of-kriby",
     "version": "0.1.0"
   },
   "tauri": {
@@ -19,7 +20,7 @@
     },
     "windows": [
       {
-        "title": "kriby",
+        "title": "my-version-of-kriby",
         "width": 800,
         "height": 600
       }
@@ -30,7 +31,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.kriby.app",
+      "identifier": "com.my-version-of-kriby.app",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
