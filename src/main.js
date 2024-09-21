@@ -1,4 +1,5 @@
 import kaplay from "kaplay";
+import { makeBackground } from "./utils";
 
 const k = kaplay({
     width: 1280,
@@ -27,3 +28,13 @@ addEventListener("keydown", async (key) => {
         appWindow.setFullscreen(true);
     }
 });
+
+k.scene("start", async () => {
+    makeBackground(k);
+});
+
+k.scene("main", async () => {
+    
+});
+
+k.go("start");
