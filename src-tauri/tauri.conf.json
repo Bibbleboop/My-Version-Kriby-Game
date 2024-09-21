@@ -1,5 +1,4 @@
 {
-  "$schema": "https://schema.tauri.app/config/1",
   "build": {
     "beforeDevCommand": "npm run dev:browser",
     "beforeBuildCommand": "npm run build:browser",
@@ -8,7 +7,7 @@
   },
   "package": {
     "productName": "my-version-of-kriby",
-    "version": "0.1.0"
+    "version": "1.0.1"
   },
   "tauri": {
     "allowlist": {
@@ -16,6 +15,14 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "fs": {
+        "readFile": true,
+        "writeFile": true,
+        "scope": ["$APPLOCALDATA/*"]
+      },
+      "window": {
+        "setFullscreen": true
       }
     },
     "windows": [
