@@ -1,5 +1,7 @@
+import { appWindow } from "@tauri-apps/api/window";
 import kaplay from "kaplay";
 import { makeBackground } from "./utils";
+import { SCALE_FACTOR } from "./constants";
 
 const k = kaplay({
     width: 1280,
@@ -31,10 +33,16 @@ addEventListener("keydown", async (key) => {
 
 k.scene("start", async () => {
     makeBackground(k);
+
+    const map = k.add([
+        k.sprite("background"),
+        k.pos(0, 0),
+        k.scale(SCALE_FACTOR),
+    ]);
 });
 
 k.scene("main", async () => {
-    
+
 });
 
 k.go("start");
