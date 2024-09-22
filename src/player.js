@@ -6,11 +6,12 @@ export function makePlayer(k) {
         k.area({ shape: new k.Rect(k.vec2(0, 1.5), 8, 5) }),
         k.anchor("center"),
         k.body({ jumpForce: 600 }),
+        k.pos(),
         k.scale(SCALE_FACTOR),
         {
             isDead: false,
             speed: 600,
-            keyControllers: [],
+            inputControllers: [],
             setControls() {
                 const jumpLogic = () => {
                     k.play("jump");
@@ -21,7 +22,11 @@ export function makePlayer(k) {
                 this.inputControllers.push(k.onClick(jumpLogic));
                 this.inputControllers.push(k.onGamepadButtonPress("south", jumpLogic));
             },
-            
+            disableControls() {
+                this.inputControllers.forEach((keyController) => 
+                    keyController.cancel()
+            );
+            }
         },
     ]);
 }
