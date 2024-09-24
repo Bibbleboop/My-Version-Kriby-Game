@@ -3,7 +3,7 @@ import kaplay from "kaplay";
 import { makeBackground } from "./utils";
 import { SCALE_FACTOR } from "./constants";
 import { makePlayer } from "./player";
-
+import { saveSystem } from "./save";
 
 const k = kaplay({
     width: 1280,
@@ -30,7 +30,7 @@ addEventListener("keydown", async (key) => {
         }
         appWindow.setFullscreen(true);
     }
-});
+
 
 k.scene("start", async () => {
     makeBackground(k);
@@ -87,6 +87,14 @@ clouds.onUpdate(() => {
 
     k.onGamepadButtonPress ("south", goToGame);
 });
+
+await saveSystem.load();
+if (!saveSystem.data.maxScore) {
+    saveSystem.data.maxScore = 0;
+    await saveSystem.save();
+}
+});
+
 
 k.scene("main", async () => {});
 
