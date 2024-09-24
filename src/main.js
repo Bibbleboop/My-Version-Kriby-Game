@@ -70,15 +70,23 @@ clouds.onUpdate(() => {
         k.anchor("center"),
         k.pos(k.center().x + 30, k.center().y + 60),
     ])
-
     playBtn.add([
-        k.text("Play",{ size: 24 }),
+        k.text("Play", { size: 24 }),
         k.color(k.Color.fromHex("#d7f2f7")),
-        // k.color(k.Color.fromHex("#d7f2f7")),
         k.area(),
         k.anchor("center"),
     ]);
-});
+    const goToGame =() => {
+        k.play("confirm");
+        k.go("main");
+    };
+
+    playBtn.Onclick(goToGame);
+
+    k.onkeyPress("space", goToGame);
+
+    k.onGamepadButtonPress ("south", goToGame);
+    });
 
 k.scene("main", async () => {});
 
