@@ -28,7 +28,6 @@ addEventListener("keydown", async (key) => {
             await appWindow.setFullscreen(false);
             return;
         }
-
         appWindow.setFullscreen(true);
     }
 });
@@ -76,6 +75,7 @@ clouds.onUpdate(() => {
         k.area(),
         k.anchor("center"),
     ]);
+
     const goToGame =() => {
         k.play("confirm");
         k.go("main");
@@ -86,7 +86,7 @@ clouds.onUpdate(() => {
     k.onkeyPress("space", goToGame);
 
     k.onGamepadButtonPress ("south", goToGame);
-    });
+});
 
 k.scene("main", async () => {});
 
