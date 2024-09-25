@@ -1,10 +1,12 @@
+import { appWindow } from "@tauri-apps/api/window";
 import kaplay from "kaplay";
 import { makePlayer } from "./player";
 import { SCALE_FACTOR } from "./constants";
 import { makeScoreBox } from "./scoreBox";
-import { makeBackground, goToGame } from "./utils";
+// import { goToGame } from "./utils";
+import { makeBackground } from "./utils";
 import { saveSystem } from "./save";
-import { appWindow } from "@tauri-apps/api/window";
+
 
 const k = kaplay({
     width: 1280,
@@ -13,6 +15,8 @@ const k = kaplay({
     global: true, 
     scale: 2,  
 });
+
+// console.log("kaplay initialized", k);
 
 k.loadSprite("kriby", "./kriby.png");
 k.loadSprite("obstacles", "./obstacles.png");
@@ -28,7 +32,6 @@ addEventListener("keydown", async (key) => {
             await appWindow.setFullscreen(false);
             return;
         }
-
         appWindow.setFullscreen(true);
     }
 });
@@ -42,16 +45,16 @@ k.scene("start", async () => {
         k.scale(SCALE_FACTOR),
     ]);
 
-    const clouds = map.add([k.sprite("clouds"), k.pos(), { speed: 5 }]);
-clouds.onUpdate(() => {
+    const clouds = map.add([k.sprite("clouds"), k.pos(), { speed: 5, },]);
+    clouds.onUpdate(() => {
     clouds.move(clouds.speed, 0);
     if (clouds.pos.x > 700) {
         clouds.pos.x = -500; // put the clouds far back so it scrolls again through the level
     }
     });
     
-    map.add([k.sprite("obstacles"), k.pos(), k.area(), { speed: 100 }]);    
-
+    map.add([k.sprite("obstacles"), k.pos(), k.area(), { speed: 100 }]);  
+   
     await saveSystem.load();
     if (!saveSystem.data.maxScore) {
         saveSystem.data.maxScore = 0;
@@ -67,7 +70,7 @@ clouds.onUpdate(() => {
         k.area(),
         k.anchor("center"),
         k.pos(k.center().x + 30, k.center().y + 60),
-    ])
+    ]);
 
     playBtn.add([
         k.text("Play", { size: 24 }),
@@ -75,33 +78,44 @@ clouds.onUpdate(() => {
         k.area(),
         k.anchor("center"),
     ]);
+    
+    // const goToGame = () => {
+    //     k.play("confirm");
+    //     k.go("main");
+    //   };
+      
+    // playBtn.onClick(() => goToGame(k));
 
+    // k.onKeyPress("space", () => goToGame(k));
+
+    // k.onGamepadButtonPress("south", () => goToGame(k));
+
+    // await saveSystem.load();
+    // if (!saveSystem.data.maxScore) {
+    //     saveSystem.data.maxScore = 0;
+    //     await saveSystem.save();
+    //     await saveSystem.load();
+    // }
+// });
     const goToGame = () => {
         k.play("confirm");
         k.go("main");
-      };
-      
-    playBtn.onClick(() => goToGame(k));
+    };
+    
+    playBtn.onClick(goToGame);
+    
+    k.onKeyPress("south", goToGame);
 
-    k.onKeyPress("space", () => goToGame(k));
-
-    k.onGamepadButtonPress("south", () => goToGame(k));
-
-    await saveSystem.load();
-    if (!saveSystem.data.maxScore) {
-        saveSystem.data.maxScore = 0;
-        await saveSystem.save();
-        await saveSystem.load();
-    }
+    k.onGamepadButtonPress("south", goToGame);
 });
 
 k.scene("main", async () => {
-    makeBackground(k);
-
     let score = 0;
 
-    const colliders = await (await fetch("./colliders.json")).json()
+    const colliders = await (await fetch("./collidersData.json")).json();
     const collidersData = colliders.data;
+
+    makeBackground(k);
 
     k.setGravity(2500); 
 
@@ -139,7 +153,7 @@ k.scene("main", async () => {
     for (const collider of collidersData) {
         platforms.add([
             k.area({
-                shape: new k.rect(k.vec2(0), collider.width, collider.height),
+                shape: new k.Rect(k.vec2(0), collider.width, collider.height),
             }),
             k.body({ isStatic: true }),
             k.pos(collider.x, collider.y),
@@ -160,6 +174,10 @@ k.scene("main", async () => {
         player.disableControls();
         k.add(await makeScoreBox(k, k.center(), score));
         player.isDead = true;
+    });
+    k.camScale(k.vec2(1.2));
+    player.onUpdate(() => {
+      k.camPos(player.pos.x, 400);
     });
 });
 k.go("start");

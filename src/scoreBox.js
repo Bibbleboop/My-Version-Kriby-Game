@@ -1,4 +1,4 @@
-// import { save } from "@tauri-apps/api/dialog";
+import { save } from "@tauri-apps/api/dialog";
 import { saveSystem } from "./save.js";
 import { computeRank, goToGame } from "./utils.js";
 
