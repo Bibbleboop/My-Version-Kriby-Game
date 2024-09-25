@@ -1,11 +1,17 @@
-import { BaseDirectory } from "@tauri-apps/api/fs";
+import { 
+    writeTextFile,
+    readTextFile,
+    BaseDirectory,
+    // createDir,
+    // exists,
+ } from "@tauri-apps/api/fs";
 
-function makeSaveSystem(savefileName) {
+ function makeSaveSystem(savefileName) {
     return {
-        data: {},
-        async save() {
-            await Deno.writeTextFile(savefileName, JSON.stringify(this.data), {
-                dir: BaseDirectory.AppLocalData,
+      data: {},
+      async save() {
+        await writeTextFile(savefileName, JSON.stringify(this.data), {
+          dir: BaseDirectory.AppLocalData,
             });
         },
         async load() {
@@ -20,4 +26,5 @@ function makeSaveSystem(savefileName) {
         },
     };
 }
+
 export const saveSystem = makeSaveSystem("save.json");

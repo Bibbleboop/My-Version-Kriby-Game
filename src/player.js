@@ -23,10 +23,10 @@ export function makePlayer(k) {
                 this.inputControllers.push(k.onGamepadButtonPress("south", jumpLogic));
             },
             disableControls() {
-                this.inputControllers.forEach((keyController) => 
-                    keyController.cancel()
-            );
-            }
+                this.inputControllers.forEach((inputController) => 
+                    inputController.cancel()
+                );
+            },
         },
     ]);
 }
