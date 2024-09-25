@@ -45,7 +45,7 @@ k.scene("start", async () => {
         k.scale(SCALE_FACTOR),
     ]);
 
-    const clouds = map.add([k.sprite("clouds"), k.pos(), { speed: 5, },]);
+    const clouds = map.add([k.sprite("clouds"), k.pos(), { speed: 5, }]);
     clouds.onUpdate(() => {
     clouds.move(clouds.speed, 0);
     if (clouds.pos.x > 700) {
@@ -78,25 +78,7 @@ k.scene("start", async () => {
         k.area(),
         k.anchor("center"),
     ]);
-    
-    // const goToGame = () => {
-    //     k.play("confirm");
-    //     k.go("main");
-    //   };
-      
-    // playBtn.onClick(() => goToGame(k));
 
-    // k.onKeyPress("space", () => goToGame(k));
-
-    // k.onGamepadButtonPress("south", () => goToGame(k));
-
-    // await saveSystem.load();
-    // if (!saveSystem.data.maxScore) {
-    //     saveSystem.data.maxScore = 0;
-    //     await saveSystem.save();
-    //     await saveSystem.load();
-    // }
-// });
     const goToGame = () => {
         k.play("confirm");
         k.go("main");
