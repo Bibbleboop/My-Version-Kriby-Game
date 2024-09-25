@@ -1,7 +1,28 @@
 export function makeBackground(k) {
-    k.add([
-        k.rect(k.width(), k.height()),
-        // k.color(215, 242, 247),
-        k.color(k.Color.fromHex("#d7f2f7")),
-    ]);
-}
+    k.add([k.rect(k.width(), k.height()), k.color(k.Color.fromHex("#d7f2f7"))]);
+  }
+
+  export function computeRank(score) {
+    if (score > 30) {
+      return "S";
+    }
+  
+    if (score > 20) {
+      return "A";
+    }
+  
+    if (score > 10) {
+      return "B";
+    }
+  
+    if (score > 2) {
+      return "C";
+    }
+  
+    return "D";
+  }
+
+  export function goToGame(k) {
+    k.play("confirm");
+    k.go("main");
+  }

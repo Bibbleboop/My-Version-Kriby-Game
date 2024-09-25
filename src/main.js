@@ -2,7 +2,7 @@ import kaplay from "kaplay";
 import { makePlayer } from "./player";
 import { SCALE_FACTOR } from "./constants";
 // import { makeScoreBox } from "./scoreBox";
-import { makeBackground } from "./utils";
+import { makeBackground, goToGame } from "./utils";
 import { saveSystem } from "./save";
 import { appWindow } from "@tauri-apps/api/window";
 
@@ -75,21 +75,17 @@ clouds.onUpdate(() => {
         k.anchor("center"),
     ]);
 
-    const goToGame = ()  => {
-        k.play("confirm");
-        k.go("main");
-    };
+    playBtn.onClick(() => goToGame(k));
 
-    playBtn.onClick(goToGame);
+    k.onKeyPress("space", () => goToGame(k));
 
-    k.onKeyPress("space", goToGame);
-
-    k.onGamepadButtonPress ("south", goToGame);
+    k.onGamepadButtonPress("south", () => goToGame(k));
 
     await saveSystem.load();
     if (!saveSystem.data.maxScore) {
         saveSystem.data.maxScore = 0;
         await saveSystem.save();
+        await saveSystem.load();
     }
 });
 
@@ -144,30 +140,19 @@ k.scene("main", async () => {
             "obstacle",
         ]);
     }
-    k.add([
-        k.rect(k.width(), 50),
-        k.pos(0, -100),
-        k.area(),
-        "obstacle",
-    ]);
+    k.add([k.rect(k.width(), 50), k.pos(0, -100), k.area(), "obstacle",]                 );
 
-    k.add([
-        k.rect(k.width(), 50),
-        k.pos(0, 1000),
-        k.area(),
-        "obstacle",
-    ]); 
+    k.add([k.rect(k.width(), 50), k.pos(0, 1000),k.area(), "obstacle",]); 
 
     const player = k.add(makePlayer(k));
     player.pos = k.vec2(600, 250);
     player.setControls();
-    player.onCollide("obstacle", () => {
+    player.onCollide("obstacle", async () => {
         if (player.isDead) return;
         k.play("hurt");
         platforms.speed = 0;
         player.disableControls();
-        // TO DO - add score box
-        // k.add(await makeScoreBox(k, k.center(), score));
+        k.add(await makeScoreBox(k, k.center(), score));
         player.isDead = true;
     });
 });
