@@ -1,7 +1,7 @@
 import kaplay from "kaplay";
 import { makePlayer } from "./player";
 import { SCALE_FACTOR } from "./constants";
-// import { makeScoreBox } from "./scoreBox";
+import { makeScoreBox } from "./scoreBox";
 import { makeBackground, goToGame } from "./utils";
 import { saveSystem } from "./save";
 import { appWindow } from "@tauri-apps/api/window";
@@ -68,6 +68,7 @@ clouds.onUpdate(() => {
         k.anchor("center"),
         k.pos(k.center().x + 30, k.center().y + 60),
     ])
+
     playBtn.add([
         k.text("Play", { size: 24 }),
         k.color(k.Color.fromHex("#d7f2f7")),
@@ -75,6 +76,11 @@ clouds.onUpdate(() => {
         k.anchor("center"),
     ]);
 
+    const goToGame = () => {
+        k.play("confirm");
+        k.go("main");
+      };
+      
     playBtn.onClick(() => goToGame(k));
 
     k.onKeyPress("space", () => goToGame(k));

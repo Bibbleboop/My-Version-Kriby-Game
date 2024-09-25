@@ -1,8 +1,4 @@
-export function makeBackground(k) {
-    k.add([k.rect(k.width(), k.height()), k.color(k.Color.fromHex("#d7f2f7"))]);
-  }
-
-  export function computeRank(score) {
+export function computeRank(score) {
     if (score > 30) {
       return "S";
     }
@@ -22,7 +18,11 @@ export function makeBackground(k) {
     return "D";
   }
 
-  export function goToGame(k) {
-    k.play("confirm");
-    k.go("main");
+export function makeBackground(k) {
+    k.add([k.rect(k.width(), k.height()), k.color(k.Color.fromHex("#d7f2f7"))]);
   }
+
+//   export function goToGame(k) {
+//     k.play("confirm");
+//     k.go("main");
+//   }
